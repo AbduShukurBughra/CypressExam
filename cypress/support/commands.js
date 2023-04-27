@@ -26,7 +26,7 @@
 
 /// <reference types="Cypress" />
 
-/// <reference types="cypress-xpath" />
+/// <reference types="@cypress/xpath" />
 
 import '@cypress/xpath';
 
