@@ -1,76 +1,77 @@
 
-describe('Alert', ()=>{
-          
-          // 1) JavaScript Alert: It will have some text and 'ok' button
-          it.skip('Alerts', ()=>{
-                  cy.visit('https://the-internet.herokuapp.com/javascript_alerts')  
-                  cy.get("button[onclick='jsAlert()']").click();
+describe('Alert', () => {
 
-                  cy.on('window:alert',(t)=>{
-                    expect(t).to.contains('I am a JS Alert');
-                  })
+        // 1) JavaScript Alert: It will have some text and 'ok' button
+        it.skip('Alerts', () => {
+                cy.visit('https://the-internet.herokuapp.com/javascript_alerts')
+                cy.get("button[onclick='jsAlert()']").click();
 
-                  //alert window automatically closesed by cypress
+                cy.on('window:alert', (t) => {
+                        expect(t).to.contains('I am a JS Alert');
+                })
 
-                  cy.xpath("//p[@id='result']").should('have.text','You successfully clicked an alert');
-          })
+                //alert window automatically closesed by cypress
 
-          // 2) JavaScript Confirm Alert
+                cy.xpath("//p[@id='result']").should('have.text', 'You successfully clicked an alert');
+        })
 
-          it('Js Confirm Alerts - OK', ()=>{
-                    cy.visit('https://the-internet.herokuapp.com/javascript_alerts')  
+        // 2) JavaScript Confirm Alert
 
-                    cy.get("button[onclick='jsConfirm()']").click();
+        it('Js Confirm Alerts - OK', () => {
+                cy.visit('https://the-internet.herokuapp.com/javascript_alerts')
 
-                    cy.on('window:confirm',(t)=>{
-                              expect(t).to.contains('I am a JS Confirm');
-                    })
-  
-                    // cypress automatically closesed alert window by using ok button-default
-  
-                    cy.xpath("//p[@id='result']").should('have.text','You clicked: Ok');
-            })
+                cy.get("button[onclick='jsConfirm()']").click();
 
-            it('Js Confirm Alerts - Cancle', ()=>{
-                    cy.visit('https://the-internet.herokuapp.com/javascript_alerts')  
+                cy.on('window:confirm', (t) => {
+                        expect(t).to.contains('I am a JS Confirm');
+                })
 
-                    cy.get("button[onclick='jsConfirm()']").click();
+                // cypress automatically closesed alert window by using ok button-default
 
-                    cy.on('window:confirm',(t)=>{
-                              expect(t).to.contains('I am a JS Confirm');
-                    })
-                    
-                    cy.on('window:confirm', ()=>false) //cypress closes alert window using cancle button
+                cy.xpath("//p[@id='result']").should('have.text', 'You clicked: Ok');
+        })
 
-                    cy.get("#result").should('have.text','You clicked: Cancel');
-            })
+        it('Js Confirm Alerts - Cancle', () => {
+                cy.visit('https://the-internet.herokuapp.com/javascript_alerts')
 
-          // 3) JavaScript Prompt Alert
+                cy.get("button[onclick='jsConfirm()']").click();
 
-          it('Js prompt alert', ()=>{
-                    cy.visit('https://the-internet.herokuapp.com/javascript_alerts')
+                cy.on('window:confirm', (t) => {
+                        expect(t).to.contains('I am a JS Confirm');
+                })
 
-                    cy.window().then((win)=>{
-                              cy.stub(win,'prompt').returns('Hello, world');
-                    })
+                cy.on('window:confirm', () => false) //cypress closes alert window using cancle button
 
-                    cy.get("button[onclick='jsPrompt()']").click();
+                cy.get("#result").should('have.text', 'You clicked: Cancel');
+        })
 
-                    //cypress will automatically close prompted alert- it will use OK button - by default
+        // 3) JavaScript Prompt Alert
 
-                    cy.get('#result').should('have.text','You entered: Hello, world');
-          })
+        it('Js prompt alert', () => {
+                cy.visit('https://the-internet.herokuapp.com/javascript_alerts')
 
-          // 4) Authenticated Alert  
+                cy.window().then((win) => {
+                        cy.stub(win, 'prompt').returns('Hello, world');
+                })
 
-          it.only('Authenticated Alert', ()=>{
-                    cy.visit('https://the-internet.herokuapp.com/basic_auth',{auth:
-                                                                                  {
-                                                                                          username:"admin",
-                                                                                          password:"admin"
-                                                                                  }
-                                                                                });
+                cy.get("button[onclick='jsPrompt()']").click();
 
-                    cy.get('p').should('have.contain','Congratulations! You must have the proper credentials.')                                                            
-          })
+                //cypress will automatically close prompted alert- it will use OK button - by default
+
+                cy.get('#result').should('have.text', 'You entered: Hello, world');
+        })
+
+        // 4) Authenticated Alert  
+
+        it('Authenticated Alert', () => {
+                cy.visit('https://the-internet.herokuapp.com/basic_auth', {
+                        auth:
+                        {
+                                username: "admin",
+                                password: "admin"
+                        }
+                });
+
+                cy.get('p').should('have.contain', 'Congratulations! You must have the proper credentials.')
+        })
 })
