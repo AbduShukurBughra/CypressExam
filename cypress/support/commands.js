@@ -39,3 +39,11 @@ Cypress.Commands.add('getIframe',(iframe)=>{
           .then(cy.wrap);
 })
 
+//Customize command
+Cypress.Commands.add('login', (email, password) => {
+          cy.visit('https://admin-demo.nopcommerce.com/login')
+          cy.get("input[id=Email]").clear().type(email)
+          cy.get("input[id=Password]").clear().type(password)
+          cy.get("button[type=submit]").click();
+})
+
