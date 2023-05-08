@@ -1,8 +1,14 @@
 /// <reference types="cypress" />
 describe('Custom Suite', ()=>{
-          it('Login Test',()=>{
-                    login('admin@yourstore.com','admin');
+          it.only('Login Test',()=>{
+                    cy.login('admin@yourstore.com','admin');//valid
                     cy.title().should('be.equal','Dashboard / nopCommerce administration')
+
+                    cy.login('admin@yourstore.com','admin12');//invalid password
+                    cy.title().should('be.equal','Your store. Login')
+
+                    cy.login('admin@yourstore123.com','admin');//invalid email
+                    cy.title().should('be.equal','Your store. Login')
 
           })
 
